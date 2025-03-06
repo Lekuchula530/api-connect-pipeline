@@ -1,0 +1,72 @@
+swagger: '2.0'
+info:
+  title: ICEA_LION
+  version: 1.0.0
+  description: ICEA_LION
+paths:
+  /SubmitClaims:
+    post:
+      operationId: SubmitClaims
+      responses:
+        '200':
+          description: The operation was successful.
+          schema:
+            $ref: '#/definitions/ClaimResponse'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      description: Insert a SubmitClaims
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/ClaimDetails'
+          description: The request body for the operation
+          required: true
+basePath: /icea_lion/v1
+definitions:
+  ClaimDetails:
+    type: object
+    properties:
+      claimId:
+        type: string
+      policyNumber:
+        type: string
+      claimant:
+        type: object
+        properties:
+          FirstName:
+            type: string
+          LastName:
+            type: string
+          PhoneNumber:
+            type: string
+          Email:
+            type: string
+      incidentDetails:
+        type: string
+      vehicleDetails:
+        type: string
+      DamageAssessment:
+        type: string
+      Status:
+        type: string
+      submissionDate:
+        type: string
+  ClaimResponse:
+    type: object
+    properties:
+      ClaimId:
+        type: string
+      PolicyNumber:
+        type: string
+      Status:
+        type: string
+      Message:
+        type: string
+      ReferenceNumber:
+        type: string
+host: icea-lion-http-cloudpak4integration.apps.67bdba981a66bab4375fb16a.am1.techzone.ibm.com
+schemes:
+  - http
