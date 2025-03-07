@@ -1,0 +1,32 @@
+name: Deploy API to IBM API Connect
+
+on:
+  push:
+    branches:
+      - main  # Triggers on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install IBM API Connect CLI
+        run: |
+          curl -sL https://github.com/IBM/apiconnect-cli/releases/latest/download/apic-linux-amd64.tar.gz | tar -xz
+          sudo mv apic /usr/local/bin/
+          apic --version
+
+      - name: Set Execution Permissions
+        run: chmod +x deploy-api.sh
+
+      - name: Deploy API
+        env:
+          APIC_USERNAME: ${{ secrets.APIC_USERNAME }}
+          APIC_PASSWORD: ${{ secrets.APIC_PASSWORD }}
+          APIC_SERVER: ${{ secrets.APIC_SERVER }}
+          ORG_NAME: ${{ secrets.ORG_NAME }}
+          CATALOG_NAME: ${{ secrets.CATALOG_NAME }}
+        run: ./deploy-api.sh
